@@ -1,0 +1,5 @@
+C:\Users\My DELL\Documents\GitHub\The-Tech-Academy-Basic-C-Sharp-Projects\ClassesandObjects\Casino\bin\Debug\Casino.dll
+C:\Users\My DELL\Documents\GitHub\The-Tech-Academy-Basic-C-Sharp-Projects\ClassesandObjects\Casino\bin\Debug\Casino.pdb
+C:\Users\My DELL\Documents\GitHub\The-Tech-Academy-Basic-C-Sharp-Projects\ClassesandObjects\Casino\obj\Debug\Casino.csproj.CoreCompileInputs.cache
+C:\Users\My DELL\Documents\GitHub\The-Tech-Academy-Basic-C-Sharp-Projects\ClassesandObjects\Casino\obj\Debug\Casino.dll
+C:\Users\My DELL\Documents\GitHub\The-Tech-Academy-Basic-C-Sharp-Projects\ClassesandObjects\Casino\obj\Debug\Casino.pdb

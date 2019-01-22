@@ -31,26 +31,19 @@ namespace NewsletterApp.Controllers
             }
             else
             {
-                string queryString = @"INSERT INTO SignUps (FirstName, LastName, EmailAddress) VALUES
-                                        (@FirstName, @LastName, @EmailAddress)";
-
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                using (NewsletterEntities db = new NewsletterEntities())
                 {
-                    SqlCommand command = new SqlCommand(queryString, connection);
-                    command.Parameters.Add("@FirstName", SqlDbType.VarChar);
-                    command.Parameters.Add("@LastName", SqlDbType.VarChar);
-                    command.Parameters.Add("@EmailAddress", SqlDbType.VarChar);
+                    var signup = new SignUp();
+                    signup.FirstName = firstName;
+                    signup.LastName = lastName;
+                    signup.EmailAddress = emailAddress;
 
-                    command.Parameters["@FirstName"].Value = firstName;
-                    command.Parameters["@LastName"].Value = lastName;
-                    command.Parameters["@EmailAddress"].Value = emailAddress;
-
-                    connection.Open();
-                    command.ExecuteNonQuery();
-                    connection.Close();
+                    db.SignUps.Add(signup);
+                    db.SaveChanges();
                 }
-                return View("Success");
             }
+
+            return View("Success");
         }
 
         public ActionResult Admin()
@@ -71,28 +64,6 @@ namespace NewsletterApp.Controllers
                 return View(signupVMs);
             }
         }
-                //string queryString = @"SELECT Id, FirstName, LastName, EmailAddress, SocialSecurityNumber from SignUps";
-                //List<NewsletterSignUp> signups = new List<NewsletterSignUp>();
-
-                //using (SqlConnection connection = new SqlConnection(connectionString))
-                //{
-                //    SqlCommand command = new SqlCommand(queryString, connection);
-
-                //    connection.Open();
-
-                //    SqlDataReader reader = command.ExecuteReader();
-
-                //    while (reader.Read())
-                //    {
-                //        var signup = new NewsletterSignUp();
-                //        signup.Id = Convert.ToInt32(reader["Id"]);
-                //        signup.FirstName = reader["FirstName"].ToString();
-                //        signup.LastName = reader["LastName"].ToString();
-                //        signup.EmailAddress = reader["EmailAddress"].ToString();
-                //        signup.SocialSecurityNumber = reader["SocialSecurityNumber"].ToString();
-                //        signups.Add(signup);
-                //    }
-                //}
-                
     }
+
 }

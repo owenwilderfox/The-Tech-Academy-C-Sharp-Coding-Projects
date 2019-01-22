@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace NewsletterApp
+namespace NewsletterApp.Models
 {
     using System;
     using System.Collections.Generic;

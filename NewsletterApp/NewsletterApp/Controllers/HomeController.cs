@@ -12,11 +12,6 @@ namespace NewsletterApp.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly string connectionString = @"Data Source=MYDELL-PC\SQLEXPRESS;Initial Catalog=Newsletter;
-                                            Integrated Security=True;Connect Timeout=30;Encrypt=False;
-                                            TrustServerCertificate=False;ApplicationIntent=ReadWrite;
-                                            MultiSubnetFailover=False";
-
         public ActionResult Index()
         {
             return View();

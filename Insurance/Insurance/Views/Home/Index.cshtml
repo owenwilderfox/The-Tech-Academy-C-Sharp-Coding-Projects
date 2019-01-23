@@ -1,0 +1,54 @@
+﻿<div class="row no-gutters m-3">
+    <div class="card col-sm-12 col-md-10 col-lg-6 mx-auto">
+        <div class="card-header text-center">
+            <h5 class="m-0">Apply for a free quote today!</h5>
+        </div>
+        <div class="card-body">
+            @using (Html.BeginForm("Application", "Home", FormMethod.Post))
+            {
+            <div class="row no-gutters">
+                <div class="form-group col-md-12">
+                    <input name="firstName" type="text" class="form-control" placeholder="First Name" />
+                </div>
+                <div class="form-group col-md-12">
+                    <input name="lastName" type="text" class="form-control" placeholder="Last Name" />
+                </div>
+                <div class="form-group col-md-12">
+                    <input name="emailAddress" type="email" class="form-control" placeholder="E-Mail Address" />
+                </div>
+                <div class="mb-2">
+                    What is your birthdate?
+                </div>
+                <div class="form-group col-md-12">
+                    <input name="dateOfBirth" type="date" class="form-control" placeholder="Birthdate" />
+                </div>
+                <div class="form-group col-md-12">
+                    <input name="carYear" type="number" class="form-control" placeholder="Car Year" />
+                </div>
+                <div class="form-group col-md-12">
+                    <input name="carModel" type="text" class="form-control" placeholder="Car Model" />
+                </div>
+                <div class="mb-2">
+                    Have you ever been charged with a DUI?
+                </div>
+                <div class="form-group col-md-12">
+                    <input name="dUI" type="text" class="form-control" placeholder="Yes or no?" />
+                </div>
+                <div class="mb-2">
+                    How many speeding tickets do you have on your record?
+                </div>
+                <div class="form-group col-md-12">
+                    <input name="speedingTickets" type="number" class="form-control" placeholder="Number of Speeding Tickets" />
+                </div>
+                <div class="mb-2">
+                    What type of insurance coverage are you looking for: full-coverage or liability?
+                </div>
+                <div class="form-group col-md-12">
+                    <input name="coverageType" type="text" class="form-control" placeholder="Full-Coverage or Liability?" />
+                </div>
+                <button type="submit" class="btn btn-block btn-success">Submit</button>
+            </div>
+            }
+        </div>
+    </div>
+</div>

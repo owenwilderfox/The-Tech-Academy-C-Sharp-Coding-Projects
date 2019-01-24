@@ -32,8 +32,8 @@ namespace Insurance.Controllers
                                             Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;
                                             ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
-                string queryString = @"INSERT INTO User (FirstName, LastName, EmailAddress, DateOfBirth, CarYear, CarMake, CarModel, Dui, SpeedingTickets, CoverageType) VALUES 
-                                        @FirstName, @LastName, @EmailAddress, @DateOfBirth, @CarYear, @CarMake, @CarModel, @Dui, @SpeedingTickets, @CoverageType)";
+                string queryString = @"INSERT INTO Users (FirstName, LastName, EmailAddress, DateOfBirth, CarYear, CarMake, CarModel, Dui, SpeedingTickets, CoverageType) VALUES 
+                                        (@FirstName, @LastName, @EmailAddress, @DateOfBirth, @CarYear, @CarMake, @CarModel, @Dui, @SpeedingTickets, @CoverageType)";
 
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
@@ -41,15 +41,28 @@ namespace Insurance.Controllers
                     command.Parameters.Add("@FirstName", SqlDbType.VarChar);
                     command.Parameters.Add("@LastName", SqlDbType.VarChar);
                     command.Parameters.Add("@EmailAddress", SqlDbType.VarChar);
-                    command.Parameters.Add("@DateOfBirth", SqlDbType.Int);
+                    command.Parameters.Add("@DateOfBirth", SqlDbType.Date);
                     command.Parameters.Add("@CarYear", SqlDbType.Int);
                     command.Parameters.Add("@CarMake", SqlDbType.VarChar);
                     command.Parameters.Add("@CarModel", SqlDbType.VarChar);
-                    command.Parameters.Add("@Dui", SqlDbType.Int);
+                    command.Parameters.Add("@Dui", SqlDbType.VarChar);
                     command.Parameters.Add("@SpeedingTickets", SqlDbType.Int);
-                    command.Parameters.Add("@CoverageType", SqlDbType.Int);
+                    command.Parameters.Add("@CoverageType", SqlDbType.VarChar);
 
+                    command.Parameters["@FirstName"].Value = firstName;
+                    command.Parameters["@LastName"].Value = lastName;
+                    command.Parameters["@EmailAddress"].Value = emailAddress;
+                    command.Parameters["@DateOfBirth"].Value = dateOfBirth;
+                    command.Parameters["@CarYear"].Value = Convert.ToInt32(carYear);
+                    command.Parameters["@CarMake"].Value = carMake;
+                    command.Parameters["@CarModel"].Value = carModel;
+                    command.Parameters["@Dui"].Value = dUI;
+                    command.Parameters["@SpeedingTickets"].Value = Convert.ToInt32(speedingTickets);
+                    command.Parameters["@coverageType"].Value = coverageType;
 
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
                 }
 
 
@@ -57,6 +70,10 @@ namespace Insurance.Controllers
             }
         }
 
+        public ActionResult Admin()
+        {
+            return View();
+        }
         ////Unused ActionResult Method
         //public ActionResult UseMe()
         //{

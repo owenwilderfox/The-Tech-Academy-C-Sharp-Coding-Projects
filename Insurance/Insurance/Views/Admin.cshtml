@@ -1,0 +1,29 @@
+﻿@using Insurance.Models
+@model List<Applicant>
+
+<div class="row no-gutters m-3">
+    <div class="card col-sm-12 col-md-10 col-lg-6 mx-auto">
+        <div class="card-header text-center">
+            Quotes
+        </div>
+        <div class="card-body">
+            @foreach (var applicant in Model)
+            {
+                <div class="row">
+                    <div class="col-3">
+                        @applicant.FirstName
+                    </div>
+                    <div class="col-3">
+                        @applicant.LastName
+                    </div>
+                    <div class="col-3">
+                        @applicant.EmailAddress
+                    </div>
+                    <div class="col-3">
+                        @applicant.Quote
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

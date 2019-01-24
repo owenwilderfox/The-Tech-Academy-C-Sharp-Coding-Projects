@@ -22,7 +22,7 @@ namespace Insurance.Controllers
                                         string carMake, string carModel, string dUI, string speedingTickets, string coverageType)
         {
             if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName) || string.IsNullOrEmpty(emailAddress) ||
-                string.IsNullOrEmpty(dateOfBirth) || string.IsNullOrEmpty(carYear) || string.IsNullOrEmpty(carMake) || 
+                string.IsNullOrEmpty(dateOfBirth) || string.IsNullOrEmpty(carYear) || string.IsNullOrEmpty(carMake) ||
                 string.IsNullOrEmpty(carModel) || string.IsNullOrEmpty(dUI) || string.IsNullOrEmpty(speedingTickets) ||
                 string.IsNullOrEmpty(coverageType))
             {
@@ -30,8 +30,61 @@ namespace Insurance.Controllers
             }
             else
             {
-                string queryString = @"INSERT INTO Users (FirstName, LastName, EmailAddress, DateOfBirth, CarYear, CarMake, CarModel, Dui, SpeedingTickets, CoverageType) VALUES 
-                                        (@FirstName, @LastName, @EmailAddress, @DateOfBirth, @CarYear, @CarMake, @CarModel, @Dui, @SpeedingTickets, @CoverageType)";
+                string queryString = @"INSERT INTO Users (FirstName, LastName, EmailAddress, DateOfBirth, CarYear, CarMake, CarModel, Dui, SpeedingTickets, CoverageType, Quote) VALUES 
+                                        (@FirstName, @LastName, @EmailAddress, @DateOfBirth, @CarYear, @CarMake, @CarModel, @Dui, @SpeedingTickets, @CoverageType, @Quote)";
+
+                var Quote = 50;
+
+                //Age-related fees
+                DateTime DOB = Convert.ToDateTime(dateOfBirth);
+                TimeSpan age = DateTime.Now - DOB;
+                int applicantAge = Convert.ToInt32(age.Days / 365.25);
+
+                if (applicantAge < 25)
+                {
+                    Quote += 25;
+                }
+                else if (applicantAge < 18)
+                {
+                    Quote += 100;
+                }
+
+                int applicantCar = Convert.ToInt32(carYear);
+
+                //Car-related fees
+                if (applicantCar < 2000)
+                {
+                    Quote += 25;
+                }
+
+                if (applicantCar > 2015)
+                {
+                    Quote += 25;
+                }
+
+                if (carMake.ToLower() == "porsche")
+                {
+                    Quote += 25;
+                }
+
+                if (carMake.ToLower() == "porsche" && carModel.ToLower() == "911 carrera")
+                {
+                    Quote += 50;
+                }
+
+                //Driving habit fees
+                int speedingFee = 10 * Convert.ToInt32(speedingTickets);
+                Quote += speedingFee;
+
+                if (dUI.ToLower() == "yes" || dUI.ToLower() == "yea" || dUI.ToLower() == "yeah")
+                {
+                    Quote += (Quote / 4);
+                }
+
+                if (coverageType.ToLower() == "full coverage" || coverageType.ToLower() == "full-coverage" || coverageType.ToLower() == "full")
+                {
+                    Quote += (Quote / 2);
+                }
 
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
@@ -46,6 +99,7 @@ namespace Insurance.Controllers
                     command.Parameters.Add("@Dui", SqlDbType.VarChar);
                     command.Parameters.Add("@SpeedingTickets", SqlDbType.Int);
                     command.Parameters.Add("@CoverageType", SqlDbType.VarChar);
+                    command.Parameters.Add("@Quote", SqlDbType.Money);
 
                     command.Parameters["@FirstName"].Value = firstName;
                     command.Parameters["@LastName"].Value = lastName;
@@ -56,7 +110,8 @@ namespace Insurance.Controllers
                     command.Parameters["@CarModel"].Value = carModel;
                     command.Parameters["@Dui"].Value = dUI;
                     command.Parameters["@SpeedingTickets"].Value = Convert.ToInt32(speedingTickets);
-                    command.Parameters["@coverageType"].Value = coverageType;
+                    command.Parameters["@CoverageType"].Value = coverageType;
+                    command.Parameters["@Quote"].Value = Quote;
 
                     connection.Open();
                     command.ExecuteNonQuery();
@@ -70,7 +125,7 @@ namespace Insurance.Controllers
 
         public ActionResult Admin()
         {
-            string queryString = @"SELECT FirstName, LastName, EmailAddress from Users";
+            string queryString = @"SELECT FirstName, LastName, EmailAddress, Quote from Users";
             List<Applicant> applicants = new List<Applicant>();
 
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -81,54 +136,19 @@ namespace Insurance.Controllers
 
                 SqlDataReader reader = command.ExecuteReader();
 
-                while(reader.Read())
+                while (reader.Read())
                 {
                     var applicant = new Applicant();
                     applicant.FirstName = reader["FirstName"].ToString();
                     applicant.LastName = reader["LastName"].ToString();
                     applicant.EmailAddress = reader["EmailAddress"].ToString();
-                    //applicant.Quote = Convert.ToDecimal(reader["Quote"]);
+                    applicant.Quote = Convert.ToDecimal(reader["Quote"]);
                     applicants.Add(applicant);
                 }
             }
-                return View(applicants);
+            return View(applicants);
+
         }
-
-        //I think this needs to be moved to its own controller and possibly into a while(reader.Read()) method
-        //so that it can then insert the data back into the database.
-
-        public ActionResult MonthlyQuote()
-        {
-            var Monthly = 50;
-            var applicant = new Applicant();
-            
-            DateTime DOB = Convert.ToDateTime(applicant.DateOfBirth);
-            TimeSpan age = DateTime.Now - DOB;
-            int applicantAge = Convert.ToInt32(age.Days / 365.25);
-
-            //Age-related fees
-            if(applicantAge < 25)
-            {
-                Monthly =+ 25;
-            }
-            else if(applicantAge < 18)
-            {
-                Monthly =+ 100;
-            }
-            else
-            {
-                Monthly = 50;
-            }
-
-
-            return View(Monthly);
-        }
-        ////Unused ActionResult Method
-        //public ActionResult UseMe()
-        //{
-        //    ViewBag.Message = "Your contact page.";
-
-        //    return View();
-        //}
     }
+
 }

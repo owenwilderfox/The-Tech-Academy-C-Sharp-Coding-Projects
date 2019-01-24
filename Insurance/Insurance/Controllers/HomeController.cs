@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Insurance.Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -10,6 +11,9 @@ namespace Insurance.Controllers
 {
     public class HomeController : Controller
     {
+        private string connectionString = @"Data Source=MYDELL-PC\SQLEXPRESS;Initial Catalog=Insurance;
+                                            Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;
+                                            ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         public ActionResult Index()
         {
             return View();
@@ -28,10 +32,6 @@ namespace Insurance.Controllers
             }
             else
             {
-                string connectionString = @"Data Source=MYDELL-PC\SQLEXPRESS;Initial Catalog=Insurance;
-                                            Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;
-                                            ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-
                 string queryString = @"INSERT INTO Users (FirstName, LastName, EmailAddress, DateOfBirth, CarYear, CarMake, CarModel, Dui, SpeedingTickets, CoverageType) VALUES 
                                         (@FirstName, @LastName, @EmailAddress, @DateOfBirth, @CarYear, @CarMake, @CarModel, @Dui, @SpeedingTickets, @CoverageType)";
 
@@ -72,7 +72,28 @@ namespace Insurance.Controllers
 
         public ActionResult Admin()
         {
-            return View();
+            string queryString = @"SELECT FirstName, LastName, EmailAddress from Users";
+            List<Applicant> applicants = new List<Applicant>();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+
+                connection.Open();
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                while(reader.Read())
+                {
+                    var applicant = new Applicant();
+                    applicant.FirstName = reader["FirstName"].ToString();
+                    applicant.LastName = reader["LastName"].ToString();
+                    applicant.EmailAddress = reader["EmailAddress"].ToString();
+                    //applicant.Quote = Convert.ToDecimal(reader["Quote"]);
+                    applicants.Add(applicant);
+                }
+            }
+                return View(applicants);
         }
         ////Unused ActionResult Method
         //public ActionResult UseMe()

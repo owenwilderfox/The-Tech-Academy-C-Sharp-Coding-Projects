@@ -202,10 +202,11 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Home\Quote.cshtml" />
     <Content Include="Views\Home\Admin.cshtml" />
+    <Content Include="Views\Quote\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Quote\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

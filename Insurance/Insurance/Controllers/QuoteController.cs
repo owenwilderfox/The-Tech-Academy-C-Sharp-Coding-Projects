@@ -15,7 +15,7 @@ namespace Insurance.Controllers
                                             Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;
                                             ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
-    public ActionResult Quote()
+        public ActionResult Quote()
         {
             string queryString = @"SELECT FirstName, LastName, DateOfBirth, CarYear, CarMake, CarModel
                                     Dui, SpeedingTickets, CoverageType from Users";
@@ -42,10 +42,33 @@ namespace Insurance.Controllers
                     applicant.CoverageType = reader["CoverageType"].ToString();
                     //applicant.Quote = Convert.ToDecimal(reader["Quote"]);
 
+                    var insuranceQuote = 50;
+
+                    var tempDOB = applicant.DateOfBirth;
+                    DateTime DOB = Convert.ToDateTime(tempDOB);
+                    TimeSpan age = DateTime.Now - DOB;
+                    int quoteAge = Convert.ToInt32(age.Days / 365.25);
+                    if (quoteAge > 25)
+                    {
+                        insuranceQuote = insuranceQuote + 25;
+                        return View("Quote");
+                    }
+                    else if (quoteAge < 18)
+                    {
+                        insuranceQuote = insuranceQuote + 100;
+                        return View("Quote");
+                    }
+                    else
+                    {
+                        return View("Quote");
+                    }
                 }
+
+                return View();
             }
-            return View();
         }
+
+
         ////Unused ActionResult Method
         //public ActionResult UseMe()
         //{

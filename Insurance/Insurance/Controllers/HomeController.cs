@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Insurance.Controllers
@@ -94,6 +92,36 @@ namespace Insurance.Controllers
                 }
             }
                 return View(applicants);
+        }
+
+        //I think this needs to be moved to its own controller and possibly into a while(reader.Read()) method
+        //so that it can then insert the data back into the database.
+
+        public ActionResult MonthlyQuote()
+        {
+            var Monthly = 50;
+            var applicant = new Applicant();
+            
+            DateTime DOB = Convert.ToDateTime(applicant.DateOfBirth);
+            TimeSpan age = DateTime.Now - DOB;
+            int applicantAge = Convert.ToInt32(age.Days / 365.25);
+
+            //Age-related fees
+            if(applicantAge < 25)
+            {
+                Monthly =+ 25;
+            }
+            else if(applicantAge < 18)
+            {
+                Monthly =+ 100;
+            }
+            else
+            {
+                Monthly = 50;
+            }
+
+
+            return View(Monthly);
         }
         ////Unused ActionResult Method
         //public ActionResult UseMe()

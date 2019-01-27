@@ -15,13 +15,11 @@ namespace StPeregrineHealthSystem.Controllers
     {
         private HospitalContext db = new HospitalContext();
 
-        // GET: Patient
         public ActionResult Index()
         {
             return View(db.Patients.ToList());
         }
 
-        // GET: Patient/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -36,30 +34,32 @@ namespace StPeregrineHealthSystem.Controllers
             return View(patient);
         }
 
-        // GET: Patient/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Patient/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "PatientID,FirstName,LastName,BirthDate")] Patient patient)
+        public ActionResult Create([Bind(Include = "FirstName, LastName, BirthDate, Physician")]Patient patient)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Patients.Add(patient);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Patients.Add(patient);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
-
+            catch (DataException)
+            {
+                
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+            }
             return View(patient);
         }
 
-        // GET: Patient/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -74,12 +74,9 @@ namespace StPeregrineHealthSystem.Controllers
             return View(patient);
         }
 
-        // POST: Patient/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "PatientID,FirstName,LastName,BirthDate")] Patient patient)
+        public ActionResult Edit([Bind(Include = "PatientID,FirstName,LastName,BirthDate,Physician")] Patient patient)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +87,6 @@ namespace StPeregrineHealthSystem.Controllers
             return View(patient);
         }
 
-        // GET: Patient/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -105,7 +101,6 @@ namespace StPeregrineHealthSystem.Controllers
             return View(patient);
         }
 
-        // POST: Patient/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

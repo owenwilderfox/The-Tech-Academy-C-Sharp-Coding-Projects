@@ -15,7 +15,6 @@ namespace StPeregrineHealthSystem.DAL
         }
 
         public DbSet<Patient> Patients { get; set; }
-        public DbSet<Physician> Physicians { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -12,11 +12,11 @@ namespace StPeregrineHealthSystem.DAL
         {
             var patients = new List<Patient>
             {
-            new Patient{FirstName="Gregory Alan",LastName="Isakov",BirthDate=DateTime.Parse("1979-10-19")},
-            new Patient{FirstName="Ben",LastName="Schneider",BirthDate=DateTime.Parse("1987-09-29")},
-            new Patient{FirstName="Arturo",LastName="Renaud",BirthDate=DateTime.Parse("2003-05-31")},
-            new Patient{FirstName="Florence",LastName="Welch",BirthDate=DateTime.Parse("2002-09-01")},
-            new Patient{FirstName="Yan",LastName="Tiersen",BirthDate=DateTime.Parse("1980-12-01")}
+            new Patient{FirstName="Gregory Alan",LastName="Isakov",BirthDate=DateTime.Parse("1979-10-19"),Physician="Lowry"},
+            new Patient{FirstName="Ben",LastName="Schneider",BirthDate=DateTime.Parse("1987-09-29"),Physician="Rowe"},
+            new Patient{FirstName="Arturo",LastName="Renaud",BirthDate=DateTime.Parse("2003-05-31"),Physician="Lowry"},
+            new Patient{FirstName="Florence",LastName="Welch",BirthDate=DateTime.Parse("2002-09-01"),Physician="Christianson"},
+            new Patient{FirstName="Yan",LastName="Tiersen",BirthDate=DateTime.Parse("1980-12-01"),Physician="Rowe"}
             };
 
             patients.ForEach(s => context.Patients.Add(s));

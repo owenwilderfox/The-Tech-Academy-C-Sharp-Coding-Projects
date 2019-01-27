@@ -4,21 +4,25 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Patient Listing</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    <button type="button" class="btn btn-outline-primary">@Html.ActionLink("Create New", "Create")</button>
+    @*@Html.ActionLink("Create New", "Create")*@
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.FirstName)
+            <strong>First Name</strong>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LastName)
+            <strong>Last Name</strong>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.BirthDate)
+            <strong>Date of Birth</strong>
+        </th>
+        <th>
+            <strong>Primary Care Provider</strong>
         </th>
         <th></th>
     </tr>
@@ -35,9 +39,12 @@
             @Html.DisplayFor(modelItem => item.BirthDate)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.PatientID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.PatientID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.PatientID })
+            @Html.DisplayFor(modelItem => item.Physician)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.PatientID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.PatientID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.PatientID })
         </td>
     </tr>
 }

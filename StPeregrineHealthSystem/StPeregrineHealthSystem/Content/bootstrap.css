@@ -2949,15 +2949,15 @@ fieldset:disabled a.btn {
 .btn-link {
   font-weight: 400;
   color: #007bff;
+  text-decoration: none;
 }
 
 .btn-link:hover {
   color: #0056b3;
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .btn-link:focus, .btn-link.focus {
-  text-decoration: underline;
   box-shadow: none;
 }
 
@@ -4079,6 +4079,7 @@ input[type="button"].btn-block {
 
 .nav-link {
   display: block;
+  text-decoration: none;
   padding: 0.5rem 1rem;
 }
 
@@ -4108,6 +4109,7 @@ input[type="button"].btn-block {
 
 .nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus {
   border-color: #e9ecef #e9ecef #dee2e6;
+  text-decoration: none;
 }
 
 .nav-tabs .nav-link.disabled {
